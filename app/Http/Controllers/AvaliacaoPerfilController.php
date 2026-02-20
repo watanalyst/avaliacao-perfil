@@ -30,7 +30,7 @@ class AvaliacaoPerfilController extends Controller
 
     private array $profilerNivelFields = [
         'energia_nivel_id', 'exigencia_meio_nivel_id', 'aproveitamento_nivel_id',
-        'moral_nivel_id', 'positividade_nivel_id', 'flexibilidade_nivel_id',
+        'autoconfianca_nivel_id', 'autoestima_nivel_id', 'flexibilidade_nivel_id',
         'amplitude_nivel_id', 'automotivacao_nivel_id', 'incitabilidade_nivel_id',
     ];
 
