@@ -55,8 +55,8 @@ const form = useForm({
     energia_nivel_id: null,
     exigencia_meio_nivel_id: null,
     aproveitamento_nivel_id: null,
-    moral_nivel_id: null,
-    positividade_nivel_id: null,
+    autoconfianca_nivel_id: null,
+    autoestima_nivel_id: null,
     flexibilidade_nivel_id: null,
     amplitude_nivel_id: null,
     automotivacao_nivel_id: null,
@@ -86,6 +86,16 @@ function parseDecimal(value) {
   return isNaN(num) ? null : num
 }
 
+function onIntegerInput(obj, key, event) {
+  let digits = event.target.value.replace(/\D/g, '')
+  digits = digits.replace(/^0+/, '') || '0'
+  let num = parseInt(digits, 10)
+  if (num > 100) num = 100
+  const formatted = String(num)
+  obj[key] = formatted
+  event.target.value = formatted
+}
+
 function onDecimalInput(obj, key, event) {
   // Remove tudo que não é dígito
   let digits = event.target.value.replace(/\D/g, '')
@@ -113,9 +123,10 @@ function onDecimalBlur(obj, key, event) {
 }
 
 function submit(status) {
-  // Converter todos os campos decimais antes de enviar
+  // Converter campos IFP (inteiros)
   for (const key of Object.keys(form.ifp)) {
-    form.ifp[key] = parseDecimal(form.ifp[key])
+    const v = form.ifp[key]
+    form.ifp[key] = (v === null || v === undefined || v === '') ? null : parseInt(v, 10)
   }
   for (const key of ['executor', 'planejador', 'analista', 'comunicador']) {
     form.profiler[key] = parseDecimal(form.profiler[key])
@@ -136,7 +147,6 @@ const ifpLabels = {
   assistencia: 'Assistência',
   intracepcao: 'Intracepção',
   afago: 'Afago',
-  autonomia: 'Autonomia',
   deferencia: 'Deferência',
   afiliacao: 'Afiliação',
   dominancia: 'Dominância',
@@ -146,6 +156,7 @@ const ifpLabels = {
   ordem: 'Ordem',
   persistencia: 'Persistência',
   mudanca: 'Mudança',
+  autonomia: 'Autonomia',
 }
 
 // ---- Labels para Profiler níveis ----
@@ -153,8 +164,8 @@ const profilerNivelLabels = {
   energia_nivel_id: 'Energia',
   exigencia_meio_nivel_id: 'Exigência do Meio',
   aproveitamento_nivel_id: 'Aproveitamento',
-  moral_nivel_id: 'Moral',
-  positividade_nivel_id: 'Positividade',
+  autoconfianca_nivel_id: 'Autoconfiança',
+  autoestima_nivel_id: 'Autoestima',
   flexibilidade_nivel_id: 'Flexibilidade',
   amplitude_nivel_id: 'Amplitude',
   automotivacao_nivel_id: 'Automotivação',
@@ -376,12 +387,11 @@ function onSearch() {
                     <label class="block text-sm font-medium text-gray-700">{{ label }}</label>
                     <input
                       :value="form.ifp[key]"
-                      @input="onDecimalInput(form.ifp, key, $event)"
-                      @blur="onDecimalBlur(form.ifp, key, $event)"
+                      @input="onIntegerInput(form.ifp, key, $event)"
                       type="text"
-                      inputmode="decimal"
+                      inputmode="numeric"
                       class="mt-1 w-full rounded-lg border-gray-300 shadow-sm focus:border-brand-500 focus:ring-brand-500"
-                      placeholder="0,00 %"
+                      placeholder="0 %"
                     />
                     <div v-if="form.errors[`ifp.${key}`]" class="mt-1 text-sm text-red-600">
                       {{ form.errors[`ifp.${key}`] }}

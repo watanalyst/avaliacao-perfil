@@ -39,6 +39,14 @@ function fmtVal(val) {
   return num.toFixed(2).replace('.', ',')
 }
 
+// Formatar valor inteiro do banco para exibição
+function fmtInt(val) {
+  if (val === null || val === undefined || val === '') return null
+  const num = parseInt(val, 10)
+  if (isNaN(num)) return null
+  return String(num)
+}
+
 // Buscar valor de âncora existente por tipo_id
 function getAncoraExistente(tipoId) {
   const a = props.ancoras?.find(x => (x.ANCORA_TIPO_ID ?? x.ancora_tipo_id) == tipoId)
@@ -64,19 +72,19 @@ const form = useForm({
   status: 'RASCUNHO',
 
   ifp: {
-    assistencia:  fmtVal(g(props.ifp, 'ASSISTENCIA', 'assistencia')),
-    intracepcao:  fmtVal(g(props.ifp, 'INTRACEPCAO', 'intracepcao')),
-    afago:        fmtVal(g(props.ifp, 'AFAGO', 'afago')),
-    autonomia:    fmtVal(g(props.ifp, 'AUTONOMIA', 'autonomia')),
-    deferencia:   fmtVal(g(props.ifp, 'DEFERENCIA', 'deferencia')),
-    afiliacao:    fmtVal(g(props.ifp, 'AFILIACAO', 'afiliacao')),
-    dominancia:   fmtVal(g(props.ifp, 'DOMINANCIA', 'dominancia')),
-    desempenho:   fmtVal(g(props.ifp, 'DESEMPENHO', 'desempenho')),
-    exibicao:     fmtVal(g(props.ifp, 'EXIBICAO', 'exibicao')),
-    agressao:     fmtVal(g(props.ifp, 'AGRESSAO', 'agressao')),
-    ordem:        fmtVal(g(props.ifp, 'ORDEM', 'ordem')),
-    persistencia: fmtVal(g(props.ifp, 'PERSISTENCIA', 'persistencia')),
-    mudanca:      fmtVal(g(props.ifp, 'MUDANCA', 'mudanca')),
+    assistencia:  fmtInt(g(props.ifp, 'ASSISTENCIA', 'assistencia')),
+    intracepcao:  fmtInt(g(props.ifp, 'INTRACEPCAO', 'intracepcao')),
+    afago:        fmtInt(g(props.ifp, 'AFAGO', 'afago')),
+    autonomia:    fmtInt(g(props.ifp, 'AUTONOMIA', 'autonomia')),
+    deferencia:   fmtInt(g(props.ifp, 'DEFERENCIA', 'deferencia')),
+    afiliacao:    fmtInt(g(props.ifp, 'AFILIACAO', 'afiliacao')),
+    dominancia:   fmtInt(g(props.ifp, 'DOMINANCIA', 'dominancia')),
+    desempenho:   fmtInt(g(props.ifp, 'DESEMPENHO', 'desempenho')),
+    exibicao:     fmtInt(g(props.ifp, 'EXIBICAO', 'exibicao')),
+    agressao:     fmtInt(g(props.ifp, 'AGRESSAO', 'agressao')),
+    ordem:        fmtInt(g(props.ifp, 'ORDEM', 'ordem')),
+    persistencia: fmtInt(g(props.ifp, 'PERSISTENCIA', 'persistencia')),
+    mudanca:      fmtInt(g(props.ifp, 'MUDANCA', 'mudanca')),
   },
 
   profiler: {
@@ -87,8 +95,8 @@ const form = useForm({
     energia_nivel_id:          g(props.profiler, 'ENERGIA_NIVEL_ID', 'energia_nivel_id') ?? null,
     exigencia_meio_nivel_id:   g(props.profiler, 'EXIGENCIA_MEIO_NIVEL_ID', 'exigencia_meio_nivel_id') ?? null,
     aproveitamento_nivel_id:   g(props.profiler, 'APROVEITAMENTO_NIVEL_ID', 'aproveitamento_nivel_id') ?? null,
-    moral_nivel_id:            g(props.profiler, 'MORAL_NIVEL_ID', 'moral_nivel_id') ?? null,
-    positividade_nivel_id:     g(props.profiler, 'POSITIVIDADE_NIVEL_ID', 'positividade_nivel_id') ?? null,
+    autoconfianca_nivel_id:    g(props.profiler, 'AUTOCONFIANCA_NIVEL_ID', 'autoconfianca_nivel_id') ?? null,
+    autoestima_nivel_id:       g(props.profiler, 'AUTOESTIMA_NIVEL_ID', 'autoestima_nivel_id') ?? null,
     flexibilidade_nivel_id:    g(props.profiler, 'FLEXIBILIDADE_NIVEL_ID', 'flexibilidade_nivel_id') ?? null,
     amplitude_nivel_id:        g(props.profiler, 'AMPLITUDE_NIVEL_ID', 'amplitude_nivel_id') ?? null,
     automotivacao_nivel_id:    g(props.profiler, 'AUTOMOTIVACAO_NIVEL_ID', 'automotivacao_nivel_id') ?? null,
@@ -116,6 +124,16 @@ function parseDecimal(value) {
   return isNaN(num) ? null : num
 }
 
+function onIntegerInput(obj, key, event) {
+  let digits = event.target.value.replace(/\D/g, '')
+  digits = digits.replace(/^0+/, '') || '0'
+  let num = parseInt(digits, 10)
+  if (num > 100) num = 100
+  const formatted = String(num)
+  obj[key] = formatted
+  event.target.value = formatted
+}
+
 function onDecimalInput(obj, key, event) {
   let digits = event.target.value.replace(/\D/g, '')
   digits = digits.replace(/^0+/, '') || '0'
@@ -140,7 +158,8 @@ function onDecimalBlur(obj, key, event) {
 
 function submit(status) {
   for (const key of Object.keys(form.ifp)) {
-    form.ifp[key] = parseDecimal(form.ifp[key])
+    const v = form.ifp[key]
+    form.ifp[key] = (v === null || v === undefined || v === '') ? null : parseInt(v, 10)
   }
   for (const key of ['executor', 'planejador', 'analista', 'comunicador']) {
     form.profiler[key] = parseDecimal(form.profiler[key])
@@ -158,18 +177,19 @@ function submit(status) {
 
 // ---- Labels ----
 const ifpLabels = {
-  assistencia: 'Assistencia', intracepcao: 'Intracepcao', afago: 'Afago',
-  autonomia: 'Autonomia', deferencia: 'Deferencia', afiliacao: 'Afiliacao',
-  dominancia: 'Dominancia', desempenho: 'Desempenho', exibicao: 'Exibicao',
-  agressao: 'Agressao', ordem: 'Ordem', persistencia: 'Persistencia', mudanca: 'Mudanca',
+  assistencia: 'Assistência', intracepcao: 'Intracepção', afago: 'Afago',
+  deferencia: 'Deferência', afiliacao: 'Afiliação',
+  dominancia: 'Dominância', desempenho: 'Desempenho', exibicao: 'Exibição',
+  agressao: 'Agressão', ordem: 'Ordem', persistencia: 'Persistência', mudanca: 'Mudança',
+  autonomia: 'Autonomia',
 }
 
 const profilerNivelLabels = {
   energia_nivel_id: 'Energia',
   exigencia_meio_nivel_id: 'Exigencia do Meio',
   aproveitamento_nivel_id: 'Aproveitamento',
-  moral_nivel_id: 'Moral',
-  positividade_nivel_id: 'Positividade',
+  autoconfianca_nivel_id: 'Autoconfiança',
+  autoestima_nivel_id: 'Autoestima',
   flexibilidade_nivel_id: 'Flexibilidade',
   amplitude_nivel_id: 'Amplitude',
   automotivacao_nivel_id: 'Automotivacao',
@@ -366,12 +386,11 @@ function onSearch() {
                     <label class="block text-sm font-medium text-gray-700">{{ label }}</label>
                     <input
                       :value="form.ifp[key]"
-                      @input="onDecimalInput(form.ifp, key, $event)"
-                      @blur="onDecimalBlur(form.ifp, key, $event)"
+                      @input="onIntegerInput(form.ifp, key, $event)"
                       type="text"
-                      inputmode="decimal"
+                      inputmode="numeric"
                       class="mt-1 w-full rounded-lg border-gray-300 shadow-sm focus:border-brand-500 focus:ring-brand-500"
-                      placeholder="0,00 %"
+                      placeholder="0 %"
                     />
                     <div v-if="form.errors[`ifp.${key}`]" class="mt-1 text-sm text-red-600">
                       {{ form.errors[`ifp.${key}`] }}

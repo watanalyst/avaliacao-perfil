@@ -50,9 +50,10 @@ function fmtDate(val) {
 // Labels IFP
 const ifpLabels = {
   ASSISTENCIA: 'Assistência', INTRACEPCAO: 'Intracepção', AFAGO: 'Afago',
-  AUTONOMIA: 'Autonomia', DEFERENCIA: 'Deferência', AFILIACAO: 'Afiliação',
+  DEFERENCIA: 'Deferência', AFILIACAO: 'Afiliação',
   DOMINANCIA: 'Dominância', DESEMPENHO: 'Desempenho', EXIBICAO: 'Exibição',
   AGRESSAO: 'Agressão', ORDEM: 'Ordem', PERSISTENCIA: 'Persistência', MUDANCA: 'Mudança',
+  AUTONOMIA: 'Autonomia',
 }
 
 // Labels Profiler %
@@ -63,8 +64,8 @@ const profilerPctLabels = {
 // Labels Profiler Níveis
 const profilerNivelKeys = {
   ENERGIA_NIVEL_ID: 'Energia', EXIGENCIA_MEIO_NIVEL_ID: 'Exigência do Meio',
-  APROVEITAMENTO_NIVEL_ID: 'Aproveitamento', MORAL_NIVEL_ID: 'Moral',
-  POSITIVIDADE_NIVEL_ID: 'Positividade', FLEXIBILIDADE_NIVEL_ID: 'Flexibilidade',
+  APROVEITAMENTO_NIVEL_ID: 'Aproveitamento', AUTOCONFIANCA_NIVEL_ID: 'Autoconfiança',
+  AUTOESTIMA_NIVEL_ID: 'Autoestima', FLEXIBILIDADE_NIVEL_ID: 'Flexibilidade',
   AMPLITUDE_NIVEL_ID: 'Amplitude', AUTOMOTIVACAO_NIVEL_ID: 'Automotivação',
   INCITABILIDADE_NIVEL_ID: 'Incitabilidade',
 }
