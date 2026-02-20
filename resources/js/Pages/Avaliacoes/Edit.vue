@@ -213,8 +213,8 @@ function selectColaborador(row) {
 
 function onSearch() {
   clearTimeout(timer)
-  const q = (search.value || '').trim().toUpperCase()
-  search.value = q
+  search.value = (search.value || '').toUpperCase()
+  const q = search.value.trim()
   if (!q) { clearSelection(); clearResults(); return }
   if (selectedText.value && q !== selectedText.value) { clearSelection() }
   if (q.length < 2 && !/^\d+$/.test(q)) { clearResults(); return }
