@@ -61,7 +61,6 @@ function formatDateBr(value) {
               <table class="min-w-full text-sm">
                 <thead>
                   <tr class="border-b border-gray-100 bg-gray-50/80 text-left">
-                    <th class="px-4 py-3 font-semibold text-gray-600">ID</th>
                     <th class="px-4 py-3 font-semibold text-gray-600">Matrícula</th>
                     <th class="px-4 py-3 font-semibold text-gray-600">Nome</th>
                     <th class="px-4 py-3 font-semibold text-gray-600">E-mail</th>
@@ -77,7 +76,6 @@ function formatDateBr(value) {
                     :key="u.id"
                     class="border-b border-gray-50 last:border-0 hover:bg-gray-50/50 transition-colors"
                   >
-                    <td class="px-4 py-3 font-medium text-gray-900">{{ u.id }}</td>
                     <td class="px-4 py-3 text-gray-700">{{ u.numcad }}</td>
                     <td class="px-4 py-3 text-gray-700">{{ u.name }}</td>
                     <td class="px-4 py-3 text-gray-500">{{ u.email }}</td>
@@ -135,7 +133,7 @@ function formatDateBr(value) {
                   </tr>
 
                   <tr v-if="!users.data || users.data.length === 0">
-                    <td colspan="8" class="px-4 py-12 text-center text-gray-400">
+                    <td colspan="7" class="px-4 py-12 text-center text-gray-400">
                       Nenhum usuário cadastrado.
                     </td>
                   </tr>
