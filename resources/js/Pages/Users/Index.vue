@@ -1,6 +1,6 @@
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue'
-import ConfirmModal from '@/Components/ConfirmModal.vue'
+import { ConfirmModal } from '@jagua/ui'
 import { Head, Link, router } from '@inertiajs/vue3'
 import { ref } from 'vue'
 
@@ -48,7 +48,8 @@ function formatDateBr(value) {
               <h2 class="text-xl font-bold text-gray-900">Usuários</h2>
               <Link
                 :href="route('users.create')"
-                class="inline-flex items-center gap-2 rounded-lg bg-brand-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-brand-700 transition"
+                class="inline-flex items-center gap-2 rounded-lg px-4 py-2.5 text-sm font-semibold text-white shadow-[0_4px_14px_0_rgba(9,63,135,0.35)] transition-all duration-200 hover:-translate-y-px hover:brightness-110"
+                style="background: linear-gradient(135deg, #093F87 0%, #0B56B3 100%)"
               >
                 <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
                   <path stroke-linecap="round" stroke-linejoin="round" d="M18 7.5v3m0 0v3m0-3h3m-3 0h-3m-2.25-4.125a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0ZM3 19.235v-.11a6.375 6.375 0 0 1 12.75 0v.109A12.318 12.318 0 0 1 9.374 21c-2.331 0-4.512-.645-6.374-1.766Z" />
@@ -104,8 +105,8 @@ function formatDateBr(value) {
                       <div class="flex items-center gap-2">
                         <Link
                           :href="route('users.edit', u.id)"
-                          class="inline-flex items-center justify-center rounded-lg border border-brand-300 bg-white p-1.5 text-brand-700 shadow-sm hover:bg-brand-50 transition"
-                          title="Editar"
+                          class="inline-flex items-center justify-center rounded-lg border border-brand-300 bg-white p-1.5 text-brand-700 shadow-sm hover:bg-brand-50 transition-all duration-200 hover:-translate-y-px"
+                          title="Editar usuário"
                         >
                           <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Z" />
@@ -113,11 +114,11 @@ function formatDateBr(value) {
                         </Link>
                         <button
                           @click="openToggleModal(u)"
-                          class="inline-flex items-center justify-center rounded-lg border bg-white p-1.5 shadow-sm transition"
+                          class="inline-flex items-center justify-center rounded-lg border bg-white p-1.5 shadow-sm transition-all duration-200 hover:-translate-y-px"
                           :class="u.ativo === 'S'
                             ? 'border-red-300 text-red-600 hover:bg-red-50'
                             : 'border-green-300 text-green-600 hover:bg-green-50'"
-                          :title="u.ativo === 'S' ? 'Inativar' : 'Ativar'"
+                          :title="u.ativo === 'S' ? 'Inativar usuário' : 'Ativar usuário'"
                         >
                           <!-- user-x (inativar) -->
                           <svg v-if="u.ativo === 'S'" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
@@ -147,7 +148,7 @@ function formatDateBr(value) {
                   v-if="link.url"
                   :href="link.url"
                   class="rounded-lg border px-3 py-1.5 text-sm font-medium transition"
-                  :class="link.active ? 'bg-brand-600 text-white border-brand-600' : 'bg-white text-gray-700 border-gray-200 hover:bg-gray-50'"
+                  :class="link.active ? 'bg-brand-600 text-white border-brand-600' : 'bg-white text-gray-700 border-gray-200 hover:bg-brand-50 hover:text-brand-700 hover:border-brand-300'"
                   v-html="link.label"
                 />
                 <span

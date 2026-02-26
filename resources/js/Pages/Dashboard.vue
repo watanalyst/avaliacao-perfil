@@ -55,7 +55,7 @@ function formatDateBr(value) {
                     }"
                 >
                     <!-- Total -->
-                    <Link :href="route('avaliacoes.index')" class="overflow-hidden rounded-2xl bg-white shadow-lg ring-1 ring-gray-900/5 hover:shadow-xl hover:ring-brand-300 transition-all cursor-pointer">
+                    <Link :href="route('avaliacoes.index')" class="overflow-hidden rounded-2xl bg-white shadow-lg ring-1 ring-gray-900/5 hover:shadow-xl hover:ring-brand-300 hover:-translate-y-px transition-all cursor-pointer">
                         <div class="h-1 bg-brand-600"></div>
                         <div class="flex items-center gap-4 p-5">
                             <div class="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-brand-50">
@@ -71,7 +71,7 @@ function formatDateBr(value) {
                     </Link>
 
                     <!-- Rascunhos -->
-                    <Link :href="route('avaliacoes.index', { status: 'RASCUNHO' })" class="overflow-hidden rounded-2xl bg-white shadow-lg ring-1 ring-gray-900/5 hover:shadow-xl hover:ring-amber-300 transition-all cursor-pointer">
+                    <Link :href="route('avaliacoes.index', { status: 'RASCUNHO' })" class="overflow-hidden rounded-2xl bg-white shadow-lg ring-1 ring-gray-900/5 hover:shadow-xl hover:ring-amber-300 hover:-translate-y-px transition-all cursor-pointer">
                         <div class="h-1 bg-amber-500"></div>
                         <div class="flex items-center gap-4 p-5">
                             <div class="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-amber-50">
@@ -87,7 +87,7 @@ function formatDateBr(value) {
                     </Link>
 
                     <!-- Finalizadas -->
-                    <Link :href="route('avaliacoes.index', { status: 'FINALIZADA' })" class="overflow-hidden rounded-2xl bg-white shadow-lg ring-1 ring-gray-900/5 hover:shadow-xl hover:ring-green-300 transition-all cursor-pointer">
+                    <Link :href="route('avaliacoes.index', { status: 'FINALIZADA' })" class="overflow-hidden rounded-2xl bg-white shadow-lg ring-1 ring-gray-900/5 hover:shadow-xl hover:ring-green-300 hover:-translate-y-px transition-all cursor-pointer">
                         <div class="h-1 bg-green-500"></div>
                         <div class="flex items-center gap-4 p-5">
                             <div class="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-green-50">
@@ -106,7 +106,7 @@ function formatDateBr(value) {
                     <Link
                         v-if="stats.a_renovar > 0"
                         :href="route('avaliacoes.index', { status: 'RENOVAR' })"
-                        class="overflow-hidden rounded-2xl bg-white shadow-lg ring-1 ring-gray-900/5 hover:shadow-xl hover:ring-yellow-300 transition-all cursor-pointer"
+                        class="overflow-hidden rounded-2xl bg-white shadow-lg ring-1 ring-gray-900/5 hover:shadow-xl hover:ring-yellow-300 hover:-translate-y-px transition-all cursor-pointer"
                     >
                         <div class="h-1 bg-yellow-500"></div>
                         <div class="flex items-center gap-4 p-5">
@@ -123,7 +123,7 @@ function formatDateBr(value) {
                     </Link>
 
                     <!-- Usuários (apenas RH) -->
-                    <Link v-if="stats.total_usuarios !== undefined" :href="route('users.index')" class="overflow-hidden rounded-2xl bg-white shadow-lg ring-1 ring-gray-900/5 hover:shadow-xl hover:ring-violet-300 transition-all cursor-pointer">
+                    <Link v-if="stats.total_usuarios !== undefined" :href="route('users.index')" class="overflow-hidden rounded-2xl bg-white shadow-lg ring-1 ring-gray-900/5 hover:shadow-xl hover:ring-violet-300 hover:-translate-y-px transition-all cursor-pointer">
                         <div class="h-1 bg-violet-500"></div>
                         <div class="flex items-center gap-4 p-5">
                             <div class="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-violet-50">
@@ -145,7 +145,8 @@ function formatDateBr(value) {
                     <div class="flex flex-wrap gap-3">
                         <Link
                             :href="route('avaliacoes.create')"
-                            class="inline-flex items-center gap-2 rounded-lg bg-brand-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-brand-700 transition"
+                            class="inline-flex items-center gap-2 rounded-lg px-4 py-2.5 text-sm font-semibold text-white shadow-[0_4px_14px_0_rgba(9,63,135,0.35)] transition-all duration-200 hover:-translate-y-px hover:brightness-110"
+                            style="background: linear-gradient(135deg, #093F87 0%, #0B56B3 100%)"
                         >
                             <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
@@ -154,7 +155,7 @@ function formatDateBr(value) {
                         </Link>
                         <Link
                             :href="route('avaliacoes.index')"
-                            class="inline-flex items-center gap-2 rounded-lg bg-white px-4 py-2.5 text-sm font-semibold text-gray-700 shadow-sm ring-1 ring-gray-300 hover:bg-gray-50 transition"
+                            class="inline-flex items-center gap-2 rounded-lg border border-gray-200 bg-white px-4 py-2.5 text-sm font-medium text-gray-600 transition-all duration-200 hover:border-blue-300 hover:text-blue-600 hover:bg-blue-50 hover:-translate-y-px shadow-sm"
                         >
                             <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 6.75h12M8.25 12h12m-12 5.25h12M3.75 6.75h.007v.008H3.75V6.75Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0ZM3.75 12h.007v.008H3.75V12Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm-.375 5.25h.007v.008H3.75v-.008Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z" />
@@ -164,7 +165,8 @@ function formatDateBr(value) {
                         <Link
                             v-if="$page.props.auth.user.role === 'RH'"
                             :href="route('users.create')"
-                            class="inline-flex items-center gap-2 rounded-lg bg-white px-4 py-2.5 text-sm font-semibold text-gray-700 shadow-sm ring-1 ring-gray-300 hover:bg-gray-50 transition"
+                            class="inline-flex items-center gap-2 rounded-lg px-4 py-2.5 text-sm font-semibold text-white shadow-[0_4px_14px_0_rgba(9,63,135,0.35)] transition-all duration-200 hover:-translate-y-px hover:brightness-110"
+                            style="background: linear-gradient(135deg, #093F87 0%, #0B56B3 100%)"
                         >
                             <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M18 7.5v3m0 0v3m0-3h3m-3 0h-3m-2.25-4.125a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0ZM3 19.235v-.11a6.375 6.375 0 0 1 12.75 0v.109A12.318 12.318 0 0 1 9.374 21c-2.331 0-4.512-.645-6.374-1.766Z" />
@@ -205,7 +207,12 @@ function formatDateBr(value) {
                                         class="border-b border-gray-50 last:border-0 hover:bg-gray-50/50 transition-colors"
                                     >
                                         <td class="px-5 py-3.5 font-medium text-gray-900">{{ a.NUMCAD ?? a.numcad }}</td>
-                                        <td class="px-5 py-3.5 text-gray-700">{{ a.NOMFUN ?? a.nomfun }}</td>
+                                        <td class="px-5 py-3.5">
+                                            <Link
+                                                :href="route('avaliacoes.show', a.ID ?? a.id)"
+                                                class="font-medium text-brand-700 hover:text-brand-800 hover:underline transition"
+                                            >{{ titleCase(a.NOMFUN ?? a.nomfun) }}</Link>
+                                        </td>
                                         <td class="px-5 py-3.5 text-gray-500">{{ formatDateBr(a.DATA_AVALIACAO ?? a.data_avaliacao) }}</td>
                                         <td class="px-5 py-3.5">
                                             <span
@@ -217,7 +224,7 @@ function formatDateBr(value) {
                                                 {{ a.STATUS ?? a.status }}
                                             </span>
                                         </td>
-                                        <td class="px-5 py-3.5 text-gray-700">{{ a.avaliador_nome ?? '—' }}</td>
+                                        <td class="px-5 py-3.5 text-gray-700">{{ titleCase(a.avaliador_nome) ?? '—' }}</td>
                                     </tr>
 
                                     <tr v-if="!recentes || recentes.length === 0">

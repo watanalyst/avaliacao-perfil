@@ -1,6 +1,6 @@
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue'
-import ConfirmModal from '@/Components/ConfirmModal.vue'
+import { ConfirmModal } from '@jagua/ui'
 import { Head, Link, router, usePage } from '@inertiajs/vue3'
 import { ref, computed } from 'vue'
 
@@ -170,7 +170,8 @@ function confirmarFinalizar() {
                 <Link
                   v-if="canEdit"
                   :href="route('avaliacoes.edit', g(av, 'ID', 'id'))"
-                  class="inline-flex items-center gap-1.5 rounded-lg border border-brand-300 bg-white px-4 py-2 text-sm font-semibold text-brand-700 shadow-sm hover:bg-brand-50 transition"
+                  class="inline-flex items-center gap-1.5 rounded-lg px-4 py-2 text-sm font-semibold text-white shadow-[0_4px_14px_0_rgba(9,63,135,0.35)] transition-all duration-200 hover:-translate-y-px hover:brightness-110"
+                  style="background: linear-gradient(135deg, #093F87 0%, #0B56B3 100%)"
                 >
                   <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Z" />
@@ -197,7 +198,7 @@ function confirmarFinalizar() {
 
                 <Link
                   :href="route('avaliacoes.index')"
-                  class="inline-flex items-center gap-1.5 rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm font-semibold text-gray-700 shadow-sm hover:bg-gray-50 transition"
+                  class="inline-flex items-center gap-1.5 rounded-lg border border-gray-200 bg-white px-4 py-2.5 text-sm font-medium text-gray-600 transition-all duration-200 hover:border-blue-300 hover:text-blue-600 hover:bg-blue-50 hover:-translate-y-px shadow-sm"
                 >
                   <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" />
@@ -225,7 +226,7 @@ function confirmarFinalizar() {
                     v-if="tab.key !== 'geral' && tabCounts[tab.key] !== undefined"
                     class="inline-flex h-5 min-w-[1.25rem] items-center justify-center rounded-full px-1 text-[10px] font-bold"
                     :class="tabCounts[tab.key] > 0
-                      ? 'bg-green-100 text-green-700'
+                      ? 'bg-brand-100 text-brand-700'
                       : 'bg-gray-100 text-gray-400'"
                   >
                     {{ tabCounts[tab.key] }}
@@ -294,7 +295,7 @@ function confirmarFinalizar() {
                   <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m6.75 12H9.75m0 0 2.25 2.25M9.75 15l2.25-2.25M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
                 </svg>
                 <p class="mt-3 text-sm font-medium text-gray-400">Nenhum dado preenchido nesta seção.</p>
-                <Link v-if="canEdit" :href="route('avaliacoes.edit', g(av, 'ID', 'id'))" class="mt-2 text-sm font-semibold text-brand-600 hover:text-brand-700">Preencher agora</Link>
+                <Link v-if="canEdit" :href="route('avaliacoes.edit', g(av, 'ID', 'id'))" class="mt-3 inline-flex items-center gap-1.5 rounded-lg border border-brand-300 bg-white px-4 py-2 text-sm font-semibold text-brand-700 shadow-sm transition-all duration-200 hover:bg-brand-50 hover:-translate-y-px">Preencher agora</Link>
               </div>
             </div>
 
@@ -331,7 +332,7 @@ function confirmarFinalizar() {
                   <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m6.75 12H9.75m0 0 2.25 2.25M9.75 15l2.25-2.25M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
                 </svg>
                 <p class="mt-3 text-sm font-medium text-gray-400">Nenhum dado preenchido nesta seção.</p>
-                <Link v-if="canEdit" :href="route('avaliacoes.edit', g(av, 'ID', 'id'))" class="mt-2 text-sm font-semibold text-brand-600 hover:text-brand-700">Preencher agora</Link>
+                <Link v-if="canEdit" :href="route('avaliacoes.edit', g(av, 'ID', 'id'))" class="mt-3 inline-flex items-center gap-1.5 rounded-lg border border-brand-300 bg-white px-4 py-2 text-sm font-semibold text-brand-700 shadow-sm transition-all duration-200 hover:bg-brand-50 hover:-translate-y-px">Preencher agora</Link>
               </div>
             </div>
 
@@ -350,7 +351,7 @@ function confirmarFinalizar() {
                   <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m6.75 12H9.75m0 0 2.25 2.25M9.75 15l2.25-2.25M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
                 </svg>
                 <p class="mt-3 text-sm font-medium text-gray-400">Nenhum dado preenchido nesta seção.</p>
-                <Link v-if="canEdit" :href="route('avaliacoes.edit', g(av, 'ID', 'id'))" class="mt-2 text-sm font-semibold text-brand-600 hover:text-brand-700">Preencher agora</Link>
+                <Link v-if="canEdit" :href="route('avaliacoes.edit', g(av, 'ID', 'id'))" class="mt-3 inline-flex items-center gap-1.5 rounded-lg border border-brand-300 bg-white px-4 py-2 text-sm font-semibold text-brand-700 shadow-sm transition-all duration-200 hover:bg-brand-50 hover:-translate-y-px">Preencher agora</Link>
               </div>
             </div>
 
@@ -378,7 +379,7 @@ function confirmarFinalizar() {
                   <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m6.75 12H9.75m0 0 2.25 2.25M9.75 15l2.25-2.25M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
                 </svg>
                 <p class="mt-3 text-sm font-medium text-gray-400">Nenhum dado preenchido nesta seção.</p>
-                <Link v-if="canEdit" :href="route('avaliacoes.edit', g(av, 'ID', 'id'))" class="mt-2 text-sm font-semibold text-brand-600 hover:text-brand-700">Preencher agora</Link>
+                <Link v-if="canEdit" :href="route('avaliacoes.edit', g(av, 'ID', 'id'))" class="mt-3 inline-flex items-center gap-1.5 rounded-lg border border-brand-300 bg-white px-4 py-2 text-sm font-semibold text-brand-700 shadow-sm transition-all duration-200 hover:bg-brand-50 hover:-translate-y-px">Preencher agora</Link>
               </div>
             </div>
 

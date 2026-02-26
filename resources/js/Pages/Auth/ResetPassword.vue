@@ -1,8 +1,6 @@
 <script setup>
 import GuestLayout from '@/Layouts/GuestLayout.vue';
-import InputError from '@/Components/InputError.vue';
-import InputLabel from '@/Components/InputLabel.vue';
-import TextInput from '@/Components/TextInput.vue';
+import { InputError, InputLabel, TextInput } from '@jagua/ui';
 import { Head, useForm, Link } from '@inertiajs/vue3';
 
 const props = defineProps({
@@ -56,7 +54,8 @@ const submit = () => {
 
             <Link
                 :href="route('login')"
-                class="inline-block rounded-md bg-brand-600 px-4 py-2 text-sm font-semibold text-white hover:bg-brand-700 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:ring-offset-2"
+                class="inline-block rounded-lg px-4 py-2.5 text-sm font-semibold text-white shadow-[0_4px_14px_0_rgba(9,63,135,0.35)] transition-all duration-200 hover:-translate-y-px hover:brightness-110"
+                style="background: linear-gradient(135deg, #093F87 0%, #0B56B3 100%)"
             >
                 Ir para o Login
             </Link>
@@ -115,7 +114,8 @@ const submit = () => {
                 <button
                     type="submit"
                     :disabled="form.processing"
-                    class="flex w-full items-center justify-center rounded-lg bg-brand-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-brand-700 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:ring-offset-2 disabled:opacity-50"
+                    class="flex w-full items-center justify-center rounded-lg px-4 py-2.5 text-sm font-semibold text-white shadow-[0_4px_14px_0_rgba(9,63,135,0.35)] transition-all duration-200 hover:-translate-y-px hover:brightness-110 disabled:opacity-50 disabled:hover:translate-y-0"
+                    style="background: linear-gradient(135deg, #093F87 0%, #0B56B3 100%)"
                 >
                     {{ form.processing ? 'Redefinindo...' : 'Redefinir Senha' }}
                 </button>

@@ -33,6 +33,11 @@ function clearStatusFilter() {
   applyFilters()
 }
 
+function titleCase(str) {
+  if (!str) return ''
+  return str.toLowerCase().replace(/\b\w/g, c => c.toUpperCase())
+}
+
 function formatDateBr(value) {
   if (!value) return ''
   const d = new Date(value)
@@ -62,12 +67,13 @@ function formatDateBr(value) {
                   v-model="busca"
                   type="text"
                   placeholder="Buscar por matrícula ou nome..."
-                  class="w-full rounded-lg border border-gray-300 py-2 pl-9 pr-3 text-sm text-gray-900 placeholder-gray-400 uppercase focus:border-brand-500 focus:ring-1 focus:ring-brand-500 transition"
+                  class="w-full rounded-lg border border-gray-300 py-2 pl-9 pr-3 text-sm text-gray-900 placeholder-gray-400 uppercase placeholder:normal-case focus:border-brand-500 focus:ring-1 focus:ring-brand-500 transition"
                 />
               </div>
               <Link
                 :href="route('avaliacoes.create')"
-                class="inline-flex items-center gap-2 rounded-lg bg-brand-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-brand-700 transition shrink-0"
+                class="inline-flex items-center gap-2 rounded-lg px-4 py-2.5 text-sm font-semibold text-white shadow-[0_4px_14px_0_rgba(9,63,135,0.35)] transition-all duration-200 hover:-translate-y-px hover:brightness-110 shrink-0"
+                style="background: linear-gradient(135deg, #093F87 0%, #0B56B3 100%)"
               >
                 <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
                   <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
@@ -106,8 +112,8 @@ function formatDateBr(value) {
                     <th class="px-4 py-3 font-semibold text-gray-600">Matrícula</th>
                     <th class="px-4 py-3 font-semibold text-gray-600">Colaborador</th>
                     <th class="px-4 py-3 font-semibold text-gray-600">Data</th>
-                    <th class="px-4 py-3 font-semibold text-gray-600">Avaliador</th>
                     <th class="px-4 py-3 font-semibold text-gray-600">Status</th>
+                    <th class="px-4 py-3 font-semibold text-gray-600">Avaliador</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -121,9 +127,10 @@ function formatDateBr(value) {
                     @click="router.visit(route('avaliacoes.show', a.ID ?? a.id))"
                   >
                     <td class="px-4 py-3 font-medium text-gray-900">{{ a.NUMCAD ?? a.numcad }}</td>
-                    <td class="px-4 py-3 text-gray-700">{{ a.NOMFUN ?? a.nomfun }}</td>
+                    <td class="px-4 py-3">
+                      <span class="font-medium text-brand-700">{{ titleCase(a.NOMFUN ?? a.nomfun) }}</span>
+                    </td>
                     <td class="px-4 py-3 text-gray-500">{{ formatDateBr(a.DATA_AVALIACAO ?? a.data_avaliacao) }}</td>
-                    <td class="px-4 py-3 text-gray-700">{{ a.avaliador_nome ?? '—' }}</td>
                     <td class="px-4 py-3">
                       <div class="flex items-center gap-1.5">
                         <span
@@ -145,6 +152,7 @@ function formatDateBr(value) {
                         </span>
                       </div>
                     </td>
+                    <td class="px-4 py-3 text-gray-700">{{ a.avaliador_nome ? titleCase(a.avaliador_nome) : '—' }}</td>
                   </tr>
 
                   <tr v-if="!avaliacoes.data || avaliacoes.data.length === 0">
@@ -162,7 +170,7 @@ function formatDateBr(value) {
                   v-if="link.url"
                   :href="link.url"
                   class="rounded-lg border px-3 py-1.5 text-sm font-medium transition"
-                  :class="link.active ? 'bg-brand-600 text-white border-brand-600' : 'bg-white text-gray-700 border-gray-200 hover:bg-gray-50'"
+                  :class="link.active ? 'bg-brand-600 text-white border-brand-600' : 'bg-white text-gray-700 border-gray-200 hover:bg-brand-50 hover:text-brand-700 hover:border-brand-300'"
                   v-html="link.label"
                 />
                 <span

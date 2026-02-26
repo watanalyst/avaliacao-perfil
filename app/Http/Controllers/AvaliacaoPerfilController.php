@@ -367,11 +367,21 @@ class AvaliacaoPerfilController extends Controller
               AND DATA_AVALIACAO > ADD_MONTHS(SYSDATE, -6)
         ", ['numcad' => $numcad]);
 
-        $bloqueado = (bool) ($recente->ULTIMA ?? $recente->ultima ?? null);
+        $ultimaRaw = $recente->ULTIMA ?? $recente->ultima ?? null;
+        $bloqueado = (bool) $ultimaRaw;
+
+        $ultimaFormatada = null;
+        if ($ultimaRaw) {
+            try {
+                $ultimaFormatada = \Carbon\Carbon::parse($ultimaRaw)->format('d/m/Y');
+            } catch (\Exception $e) {
+                $ultimaFormatada = $ultimaRaw;
+            }
+        }
 
         return response()->json([
             'bloqueado' => $bloqueado,
-            'ultima'    => $recente->ULTIMA ?? $recente->ultima ?? null,
+            'ultima'    => $ultimaFormatada,
         ]);
     }
 
