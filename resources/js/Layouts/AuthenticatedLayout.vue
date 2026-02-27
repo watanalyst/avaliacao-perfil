@@ -61,36 +61,33 @@ function titleCase(str) {
                             <div class="relative ms-3">
                                 <Dropdown align="right" width="48">
                                     <template #trigger>
-                                        <span class="inline-flex rounded-md">
-                                            <button
-                                                type="button"
-                                                class="inline-flex items-center gap-2 rounded-md border border-transparent bg-white px-3 py-2 text-sm font-medium leading-4 text-gray-500 transition duration-150 ease-in-out hover:text-gray-700 focus:outline-none"
+                                        <button
+                                            type="button"
+                                            class="inline-flex items-center gap-2.5 rounded-xl border border-gray-200 bg-gray-50/80 px-3.5 py-2 text-sm font-medium text-gray-700 shadow-sm transition-all duration-200 hover:bg-white hover:border-brand-300 hover:shadow-md focus:outline-none"
+                                        >
+                                            <img
+                                                v-if="$page.props.auth.user.foto_url"
+                                                :src="$page.props.auth.user.foto_url"
+                                                alt="Foto"
+                                                class="h-8 w-8 rounded-full object-cover ring-2 ring-white shadow-sm"
+                                            />
+                                            <div v-else class="flex h-8 w-8 items-center justify-center rounded-full bg-brand-100 text-xs font-bold text-brand-700 ring-2 ring-white shadow-sm">
+                                                {{ $page.props.auth.user.name?.charAt(0)?.toUpperCase() }}
+                                            </div>
+                                            <span class="hidden lg:inline">{{ titleCase($page.props.auth.user.name) }}</span>
+                                            <svg
+                                                class="h-4 w-4 text-gray-400"
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                viewBox="0 0 20 20"
+                                                fill="currentColor"
                                             >
-                                                <img
-                                                    v-if="$page.props.auth.user.foto_url"
-                                                    :src="$page.props.auth.user.foto_url"
-                                                    alt="Foto"
-                                                    class="h-7 w-7 rounded-full object-cover"
+                                                <path
+                                                    fill-rule="evenodd"
+                                                    d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                                                    clip-rule="evenodd"
                                                 />
-                                                <div v-else class="flex h-7 w-7 items-center justify-center rounded-full bg-brand-100 text-xs font-semibold text-brand-700">
-                                                    {{ $page.props.auth.user.name?.charAt(0)?.toUpperCase() }}
-                                                </div>
-                                                {{ titleCase($page.props.auth.user.name) }}
-
-                                                <svg
-                                                    class="-me-0.5 h-4 w-4"
-                                                    xmlns="http://www.w3.org/2000/svg"
-                                                    viewBox="0 0 20 20"
-                                                    fill="currentColor"
-                                                >
-                                                    <path
-                                                        fill-rule="evenodd"
-                                                        d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                                                        clip-rule="evenodd"
-                                                    />
-                                                </svg>
-                                            </button>
-                                        </span>
+                                            </svg>
+                                        </button>
                                     </template>
 
                                     <template #content>

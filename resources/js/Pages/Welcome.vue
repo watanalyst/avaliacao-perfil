@@ -28,7 +28,8 @@ defineProps({
                 <Link
                     v-if="canLogin"
                     :href="route('login')"
-                    class="rounded-md bg-brand-600 px-6 py-3 text-sm font-semibold text-white hover:bg-brand-700 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:ring-offset-2"
+                    class="rounded-lg px-6 py-3 text-sm font-semibold text-white shadow-[0_4px_14px_0_rgba(9,63,135,0.35)] transition-all duration-200 hover:-translate-y-px hover:brightness-110"
+                    style="background: linear-gradient(135deg, #093F87 0%, #0B56B3 100%)"
                 >
                     Entrar
                 </Link>

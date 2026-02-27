@@ -36,6 +36,13 @@ class UserController extends Controller
             'email'    => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:RH_USERS,email'],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
             'role'     => ['required', 'in:RH,AVALIADOR'],
+        ], [
+            'numcad.unique'    => 'Já existe um usuário cadastrado com esta matrícula.',
+            'email.unique'     => 'Já existe um usuário cadastrado com este e-mail.',
+            'role.required'    => 'O campo perfil é obrigatório.',
+            'role.in'          => 'O perfil selecionado é inválido.',
+            'password.required'=> 'O campo senha é obrigatório.',
+            'password.confirmed'=> 'A confirmação de senha não confere.',
         ]);
 
         // Valida colaborador no Senior (mesmo padrão do RegisteredUserController)

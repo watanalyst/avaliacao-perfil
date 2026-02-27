@@ -1,5 +1,6 @@
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue'
+import { ConfirmModal } from '@jagua/ui'
 import { Head, Link, useForm } from '@inertiajs/vue3'
 import { computed, ref } from 'vue'
 
@@ -177,6 +178,48 @@ function getForcaIndex(forcaId) {
   return form.forcas.findIndex(f => f.forca_id === forcaId)
 }
 
+// ---- Contadores de campos preenchidos por aba ----
+const ifpCount = computed(() =>
+  Object.values(form.ifp).filter(v => v !== null && v !== undefined && v !== '').length
+)
+const profilerCount = computed(() => {
+  const pcts = ['executor', 'planejador', 'analista', 'comunicador'].filter(k =>
+    form.profiler[k] !== null && form.profiler[k] !== undefined && form.profiler[k] !== ''
+  ).length
+  const nivs = Object.keys(profilerNivelLabels).filter(k =>
+    form.profiler[k] !== null && form.profiler[k] !== undefined && form.profiler[k] !== ''
+  ).length
+  return pcts + nivs
+})
+const ancorasCount = computed(() =>
+  form.ancoras.filter(a => a.valor !== null && a.valor !== undefined && a.valor !== '').length
+)
+const forcasCount = computed(() =>
+  form.forcas.filter(f => f.valor !== null && f.valor !== undefined && f.valor !== '').length
+)
+const tabCounts = computed(() => ({
+  ifp: ifpCount.value,
+  profiler: profilerCount.value,
+  ancoras: ancorasCount.value,
+  forcas: forcasCount.value,
+}))
+
+// ---- Limpar formulário ----
+function limparForm() {
+  form.reset()
+  search.value = ''
+  bloqueado.value = false
+  ultimaAvaliacao.value = null
+}
+
+// ---- Modal Finalizar ----
+const showModalFinalizar = ref(false)
+
+function confirmarFinalizar() {
+  showModalFinalizar.value = false
+  submit('FINALIZADA')
+}
+
 // ---- Autocomplete Colaborador ----
 const search = ref('')
 const results = ref([])
@@ -262,7 +305,7 @@ function onSearch() {
               <h2 class="text-xl font-bold text-gray-900">Nova Avaliação</h2>
               <Link
                 :href="route('avaliacoes.index')"
-                class="inline-flex items-center gap-1.5 rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm font-semibold text-gray-700 shadow-sm hover:bg-gray-50 transition"
+                class="inline-flex items-center gap-1.5 rounded-lg border border-gray-200 bg-white px-4 py-2.5 text-sm font-medium text-gray-600 transition-all duration-200 hover:border-blue-300 hover:text-blue-600 hover:bg-blue-50 hover:-translate-y-px shadow-sm"
               >
                 <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
                   <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" />
@@ -281,12 +324,21 @@ function onSearch() {
                     :key="tab.key"
                     type="button"
                     @click="activeTab = tab.key"
-                    class="rounded-t-lg px-4 py-2.5 text-sm font-semibold transition"
+                    class="inline-flex items-center gap-1.5 rounded-t-lg px-4 py-2.5 text-sm font-semibold transition"
                     :class="activeTab === tab.key
                       ? 'border-b-2 border-brand-600 text-brand-600 bg-brand-50/50'
                       : 'text-gray-500 hover:text-gray-700 hover:bg-gray-50'"
                   >
                     {{ tab.label }}
+                    <span
+                      v-if="tab.key !== 'geral' && tabCounts[tab.key] !== undefined"
+                      class="inline-flex h-5 min-w-[1.25rem] items-center justify-center rounded-full px-1 text-[10px] font-bold"
+                      :class="tabCounts[tab.key] > 0
+                        ? 'bg-green-100 text-green-700'
+                        : 'bg-gray-100 text-gray-400'"
+                    >
+                      {{ tabCounts[tab.key] }}
+                    </span>
                   </button>
                 </nav>
               </div>
@@ -302,7 +354,7 @@ function onSearch() {
                       @input="onSearch"
                       @blur="() => setTimeout(clearResults, 150)"
                       type="text"
-                      class="w-full rounded-lg border-gray-300 shadow-sm focus:border-brand-500 focus:ring-brand-500 uppercase"
+                      class="w-full rounded-lg border-gray-300 shadow-sm focus:border-brand-500 focus:ring-brand-500 uppercase placeholder:normal-case"
                       placeholder="Digite matrícula ou nome..."
                       autocomplete="off"
                       spellcheck="false"
@@ -516,7 +568,7 @@ function onSearch() {
                   type="button"
                   @click="submit('RASCUNHO')"
                   :disabled="form.processing || !form.numcad || !form.nomfun || bloqueado"
-                  class="inline-flex items-center gap-2 rounded-lg border border-gray-300 bg-white px-5 py-2.5 text-sm font-semibold text-gray-700 shadow-sm hover:bg-gray-50 disabled:opacity-50 transition"
+                  class="inline-flex items-center gap-2 rounded-lg border border-amber-300 bg-amber-50 px-5 py-2.5 text-sm font-semibold text-amber-700 shadow-sm transition-all duration-200 hover:bg-amber-100 hover:border-amber-400 hover:-translate-y-px disabled:opacity-50 disabled:hover:translate-y-0"
                 >
                   <svg v-if="form.processing && form.status === 'RASCUNHO'" class="h-4 w-4 animate-spin" fill="none" viewBox="0 0 24 24">
                     <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
@@ -527,15 +579,25 @@ function onSearch() {
 
                 <button
                   type="button"
-                  @click="submit('FINALIZADA')"
+                  @click="showModalFinalizar = true"
                   :disabled="form.processing || !form.numcad || !form.nomfun || bloqueado"
-                  class="inline-flex items-center gap-2 rounded-lg bg-brand-600 px-5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-brand-700 disabled:opacity-50 transition"
+                  class="inline-flex items-center gap-2 rounded-lg px-5 py-2.5 text-sm font-semibold text-white shadow-[0_4px_14px_0_rgba(9,63,135,0.35)] transition-all duration-200 hover:-translate-y-px hover:brightness-110 disabled:opacity-50 disabled:hover:translate-y-0"
+                  style="background: linear-gradient(135deg, #093F87 0%, #0B56B3 100%)"
                 >
                   <svg v-if="form.processing && form.status === 'FINALIZADA'" class="h-4 w-4 animate-spin" fill="none" viewBox="0 0 24 24">
                     <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                     <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path>
                   </svg>
                   Finalizar Avaliação
+                </button>
+
+                <button
+                  type="button"
+                  @click="limparForm"
+                  :disabled="form.processing"
+                  class="inline-flex items-center gap-2 rounded-lg border border-gray-200 bg-white px-5 py-2.5 text-sm font-medium text-gray-600 shadow-sm transition-all duration-200 hover:border-blue-300 hover:text-blue-600 hover:bg-blue-50 hover:-translate-y-px disabled:opacity-50 disabled:hover:translate-y-0"
+                >
+                  Limpar
                 </button>
 
                 <span v-if="!form.numcad || !form.nomfun" class="text-sm text-gray-400">
@@ -547,5 +609,15 @@ function onSearch() {
         </div>
       </div>
     </div>
+    <!-- Modal Finalizar -->
+    <ConfirmModal
+      :show="showModalFinalizar"
+      title="Finalizar avaliação"
+      message="Tem certeza que deseja finalizar esta avaliação? Esta ação não pode ser desfeita."
+      confirm-label="Finalizar"
+      variant="success"
+      @confirm="confirmarFinalizar"
+      @cancel="showModalFinalizar = false"
+    />
   </AuthenticatedLayout>
 </template>
