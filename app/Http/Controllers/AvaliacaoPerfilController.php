@@ -255,20 +255,20 @@ class AvaliacaoPerfilController extends Controller
     {
         $data = $request->validate($this->buildValidationRules());
 
-        // Bloquear se já existe avaliação finalizada com menos de 6 meses
-        $recente = DB::connection('oracle_logix')->selectOne("
-            SELECT MAX(DATA_AVALIACAO) AS ULTIMA
-            FROM RH_AVALIACAO_PERFIL
-            WHERE NUMCAD = :numcad
-              AND STATUS = 'FINALIZADA'
-              AND DATA_AVALIACAO > ADD_MONTHS(SYSDATE, -6)
-        ", ['numcad' => (int) $data['numcad']]);
-
-        if ($recente && ($recente->ULTIMA ?? $recente->ultima)) {
-            return back()->withErrors([
-                'numcad' => 'Este colaborador possui uma avaliação finalizada há menos de 6 meses. Aguarde o prazo para uma nova avaliação.',
-            ]);
-        }
+        // TODO: Reativar trava de 6 meses futuramente
+        // $recente = DB::connection('oracle_logix')->selectOne("
+        //     SELECT MAX(DATA_AVALIACAO) AS ULTIMA
+        //     FROM RH_AVALIACAO_PERFIL
+        //     WHERE NUMCAD = :numcad
+        //       AND STATUS = 'FINALIZADA'
+        //       AND DATA_AVALIACAO > ADD_MONTHS(SYSDATE, -6)
+        // ", ['numcad' => (int) $data['numcad']]);
+        //
+        // if ($recente && ($recente->ULTIMA ?? $recente->ultima)) {
+        //     return back()->withErrors([
+        //         'numcad' => 'Este colaborador possui uma avaliação finalizada há menos de 6 meses. Aguarde o prazo para uma nova avaliação.',
+        //     ]);
+        // }
 
         $avaliacao = null;
 
@@ -352,6 +352,7 @@ class AvaliacaoPerfilController extends Controller
         return redirect()->route('avaliacoes.index');
     }
 
+    // TODO: Reativar trava de 6 meses futuramente
     public function checkColaborador(Request $request)
     {
         $numcad = (int) $request->get('numcad', 0);
@@ -359,29 +360,10 @@ class AvaliacaoPerfilController extends Controller
             return response()->json(['bloqueado' => false]);
         }
 
-        $recente = DB::connection('oracle_logix')->selectOne("
-            SELECT MAX(DATA_AVALIACAO) AS ULTIMA
-            FROM RH_AVALIACAO_PERFIL
-            WHERE NUMCAD = :numcad
-              AND STATUS = 'FINALIZADA'
-              AND DATA_AVALIACAO > ADD_MONTHS(SYSDATE, -6)
-        ", ['numcad' => $numcad]);
-
-        $ultimaRaw = $recente->ULTIMA ?? $recente->ultima ?? null;
-        $bloqueado = (bool) $ultimaRaw;
-
-        $ultimaFormatada = null;
-        if ($ultimaRaw) {
-            try {
-                $ultimaFormatada = \Carbon\Carbon::parse($ultimaRaw)->format('d/m/Y');
-            } catch (\Exception $e) {
-                $ultimaFormatada = $ultimaRaw;
-            }
-        }
-
+        // Trava temporariamente desativada — sempre permite nova avaliação
         return response()->json([
-            'bloqueado' => $bloqueado,
-            'ultima'    => $ultimaFormatada,
+            'bloqueado' => false,
+            'ultima'    => null,
         ]);
     }
 
