@@ -8,7 +8,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
-use Illuminate\Support\Facades\Storage;
+
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -51,15 +51,11 @@ class ProfileController extends Controller
         ]);
 
         $user = $request->user();
+        $file = $request->file('foto');
 
-        // Remove foto anterior se existir
-        $fotoAnterior = $user->FOTO ?? $user->foto ?? null;
-        if ($fotoAnterior) {
-            Storage::disk('public')->delete($fotoAnterior);
-        }
-
-        $path = $request->file('foto')->store('avatars', 'public');
-        $user->foto = $path;
+        $mime = $file->getMimeType();
+        $base64 = base64_encode(file_get_contents($file->getRealPath()));
+        $user->foto = "data:{$mime};base64,{$base64}";
         $user->save();
 
         return Redirect::route('profile.edit');
@@ -71,13 +67,8 @@ class ProfileController extends Controller
     public function destroyFoto(Request $request): RedirectResponse
     {
         $user = $request->user();
-        $foto = $user->FOTO ?? $user->foto ?? null;
-
-        if ($foto) {
-            Storage::disk('public')->delete($foto);
-            $user->foto = null;
-            $user->save();
-        }
+        $user->foto = null;
+        $user->save();
 
         return Redirect::route('profile.edit');
     }

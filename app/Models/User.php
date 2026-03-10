@@ -28,7 +28,13 @@ class User extends Authenticatable
     {
         $foto = $this->FOTO ?? $this->foto ?? null;
         if (!$foto) return null;
-        return asset('storage/' . $foto);
+
+        // Já é base64 data URL
+        if (str_starts_with($foto, 'data:image')) {
+            return $foto;
+        }
+
+        return 'data:image/jpeg;base64,' . $foto;
     }
 
     protected $hidden = [
